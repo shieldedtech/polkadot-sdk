@@ -149,8 +149,6 @@ members = [
 	"cumulus/test/runtime",
 	"cumulus/test/service",
 	"cumulus/xcm/xcm-emulator",
-	"cumulus/zombienet/zombienet-sdk",
-	"cumulus/zombienet/zombienet-sdk-helpers",
 	"docs/sdk",
 	"docs/sdk/packages/guides/first-pallet",
 	"docs/sdk/packages/guides/first-runtime",
@@ -248,7 +246,6 @@ members = [
 	"polkadot/xcm/xcm-simulator",
 	"polkadot/xcm/xcm-simulator/example",
 	"polkadot/xcm/xcm-simulator/fuzzer",
-	"polkadot/zombienet-sdk-tests",
 	"substrate/bin/node/bench",
 	"substrate/bin/node/cli",
 	"substrate/bin/node/inspect",
@@ -584,7 +581,6 @@ members = [
 	"substrate/utils/prometheus",
 	"substrate/utils/substrate-bip39",
 	"substrate/utils/wasm-builder",
-	"substrate/zombienet/zombienet-sdk",
 	"templates/minimal/node",
 	"templates/minimal/pallets/template",
 	"templates/minimal/runtime",
@@ -595,7 +591,6 @@ members = [
 	"templates/solochain/node",
 	"templates/solochain/pallets/template",
 	"templates/solochain/runtime",
-	"templates/zombienet",
 	"umbrella",
 ]
 
@@ -1503,18 +1498,10 @@ xcm-runtime-apis = { path = "polkadot/xcm/xcm-runtime-apis", default-features = 
 xcm-simulator = { path = "polkadot/xcm/xcm-simulator", default-features = false }
 yet-another-parachain-runtime = { path = "cumulus/parachains/runtimes/testing/yet-another-parachain" }
 zeroize = { version = "1.7.0", default-features = false }
-zombienet-configuration = { version = "0.4.14" }
-zombienet-orchestrator = { version = "0.4.14" }
-zombienet-sdk = { version = "0.4.14" }
+zombienet-configuration = { version = "0.4.9" }
+zombienet-orchestrator = { version = "0.4.9" }
+zombienet-sdk = { version = "0.4.9" }
 zstd = { version = "0.12.4", default-features = false }
-
-[patch.crates-io]
-zombienet-configuration = { path = "../zombienet-sdk/crates/configuration" }
-zombienet-orchestrator = { path = "../zombienet-sdk/crates/orchestrator" }
-zombienet-prom-metrics-parser = { path = "../zombienet-sdk/crates/prom-metrics-parser" }
-zombienet-provider = { path = "../zombienet-sdk/crates/provider" }
-zombienet-sdk = { path = "../zombienet-sdk/crates/sdk" }
-zombienet-support = { path = "../zombienet-sdk/crates/support" }
 
 [profile.release]
 # Polkadot runtime requires unwinding.
