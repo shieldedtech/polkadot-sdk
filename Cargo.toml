@@ -284,6 +284,7 @@ members = [
 	"substrate/client/mixnet",
 	"substrate/client/network",
 	"substrate/client/network-gossip",
+	"substrate/client/network/iroh-transport",
 	"substrate/client/network/common",
 	"substrate/client/network/light",
 	"substrate/client/network/statement",
@@ -631,6 +632,7 @@ pallet-oracle = { path = "substrate/frame/honzon/oracle", default-features = fal
 pallet-oracle-runtime-api = { path = "substrate/frame/honzon/oracle/runtime-api", default-features = false }
 
 Inflector = { version = "0.11.4" }
+actor-helper = { version = "0.2", features = ["tokio"] }
 aes-gcm = { version = "0.10" }
 ahash = { version = "0.8.2" }
 alloy-consensus = { version = "1.0.41", default-features = false }
@@ -881,6 +883,7 @@ indexmap = { version = "2.7.1" }
 indicatif = { version = "0.17.7" }
 integer-sqrt = { version = "0.1.2" }
 ip_network = { version = "0.4.1" }
+iroh = { version = "1.0", default-features = false, features = ["tls-ring"] }
 is-terminal = { version = "0.4.9" }
 is_executable = { version = "1.0.1" }
 isahc = { version = "1.2" }
@@ -1260,6 +1263,7 @@ sc-mixnet = { path = "substrate/client/mixnet", default-features = false }
 sc-network = { path = "substrate/client/network", default-features = false }
 sc-network-common = { path = "substrate/client/network/common", default-features = false }
 sc-network-gossip = { path = "substrate/client/network-gossip", default-features = false }
+sc-network-iroh-transport = { path = "substrate/client/network/iroh-transport", default-features = false }
 sc-network-light = { path = "substrate/client/network/light", default-features = false }
 sc-network-statement = { default-features = false, path = "substrate/client/network/statement" }
 sc-network-sync = { path = "substrate/client/network/sync", default-features = false }
