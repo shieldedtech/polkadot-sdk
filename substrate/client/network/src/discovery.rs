@@ -60,13 +60,6 @@ use futures_timer::Delay;
 use ip_network::IpNetwork;
 use libp2p::{
 	core::{transport::PortUse, Endpoint, Multiaddr},
-	kad::{
-		self,
-		store::{MemoryStore, MemoryStoreConfig, RecordStore},
-		Behaviour as Kademlia, BucketInserts, Config as KademliaConfig, Event as KademliaEvent,
-		Event, GetClosestPeersError, GetClosestPeersOk, GetProvidersError, GetProvidersOk,
-		GetRecordOk, PeerRecord, QueryId, QueryResult, Quorum, Record, RecordKey,
-	},
 	mdns::{self, tokio::Behaviour as TokioMdns},
 	multiaddr::Protocol,
 	swarm::{
@@ -78,6 +71,13 @@ use libp2p::{
 		THandlerInEvent, THandlerOutEvent, ToSwarm,
 	},
 	PeerId,
+};
+use libp2p_kad::{
+	self as kad,
+	store::{MemoryStore, MemoryStoreConfig, RecordStore},
+	Behaviour as Kademlia, BucketInserts, Config as KademliaConfig, Event as KademliaEvent, Event,
+	GetClosestPeersError, GetClosestPeersOk, GetProvidersError, GetProvidersOk, GetRecordOk,
+	PeerRecord, QueryId, QueryResult, Quorum, Record, RecordKey,
 };
 use linked_hash_set::LinkedHashSet;
 use log::{debug, error, info, trace, warn};
@@ -1418,8 +1418,8 @@ mod tests {
 							match e {
 								SwarmEvent::Behaviour(behavior) => {
 									match behavior {
-										DiscoveryOut::UnroutablePeer(other) |
-										DiscoveryOut::Discovered(other) => {
+										DiscoveryOut::UnroutablePeer(other)
+										| DiscoveryOut::Discovered(other) => {
 											// Call `add_self_reported_address` to simulate identify
 											// happening.
 											let addr = swarms

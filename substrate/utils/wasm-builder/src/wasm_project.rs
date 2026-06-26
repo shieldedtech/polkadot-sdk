@@ -935,6 +935,9 @@ fn build_bloaty_blob(
 			}
 
 			rustflags.push_str("-C link-arg=--export-table ");
+			// Runtime interface host functions are provided by the executor, not linked into
+			// the runtime blob. Newer Rust toolchains no longer pass this flag by default.
+			rustflags.push_str("-C link-arg=--allow-undefined ");
 		},
 		RuntimeTarget::Riscv => (),
 	}
