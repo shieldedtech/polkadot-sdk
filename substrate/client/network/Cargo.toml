@@ -39,6 +39,7 @@ ip_network = { workspace = true }
 libp2p = { features = ["dns", "identify", "kad", "macros", "mdns", "metrics", "noise", "ping", "request-response", "tcp", "tokio", "websocket", "yamux"], workspace = true }
 libp2p-kad = { workspace = true }
 libp2p-metrics = { workspace = true }
+sc-network-iroh-transport = { workspace = true, optional = true }
 linked_hash_set = { workspace = true }
 litep2p = { workspace = true }
 log = { workspace = true, default-features = true }
@@ -62,7 +63,7 @@ sp-blockchain = { default-features = true, workspace = true }
 sp-core = { default-features = true, workspace = true }
 sp-runtime = { default-features = true, workspace = true }
 thiserror = { workspace = true }
-tokio = { features = ["macros", "sync"], workspace = true, default-features = true }
+tokio = { features = ["macros", "rt", "sync"], workspace = true, default-features = true }
 tokio-stream = { workspace = true }
 unsigned-varint = { features = ["asynchronous_codec", "futures"], workspace = true }
 void = { workspace = true }
@@ -90,3 +91,6 @@ prost-build = { workspace = true }
 
 [features]
 default = []
+# Experimental: also build an iroh (QUIC) base transport and combine it with the
+# TCP/WS transport via `OrTransport`. Pulls in the heavy `iroh` dependency tree.
+with-iroh = ["dep:sc-network-iroh-transport"]

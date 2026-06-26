@@ -123,7 +123,47 @@ pub fn build_transport(
 		.map(|(peer_id, muxer), _| (peer_id, StreamMuxerBox::new(muxer)))
 		.boxed();
 
+	// Optionally combine with the experimental iroh (QUIC) transport. iroh connections are
+	// already authenticated and multiplexed, so the iroh transport yields `(PeerId,
+	// StreamMuxerBox)` directly and is merged in via `OrTransport`, the same way `libp2p-quic`
+	// is integrated upstream. The TCP/WS transport is tried first; addresses it rejects (e.g.
+	// bare `/p2p/...`) fall through to iroh.
+	#[cfg(feature = "with-iroh")]
+	let transport = if memory_only {
+		transport
+	} else {
+		let iroh = build_iroh_transport(&keypair, Arc::clone(&bandwidth));
+		libp2p::core::transport::OrTransport::new(transport, iroh)
+			.map(|either, _| match either {
+				futures::future::Either::Left(out) => out,
+				futures::future::Either::Right(out) => out,
+			})
+			.boxed()
+	};
+
 	(transport, bandwidth)
+}
+
+/// Builds the experimental iroh (QUIC) base transport, wrapped in the same bandwidth-counting
+/// layer as the rest of the stack.
+///
+/// iroh's endpoint is initialised asynchronously, but `build_transport` is synchronous and runs
+/// inside the node's (multi-threaded) tokio runtime, so we bridge with `block_in_place` +
+/// `block_on`. This is fine for node startup; the feature is off by default.
+#[cfg(feature = "with-iroh")]
+fn build_iroh_transport(
+	keypair: &identity::Keypair,
+	bandwidth: Arc<BandwidthSinks>,
+) -> Boxed<(PeerId, StreamMuxerBox)> {
+	let iroh = tokio::task::block_in_place(|| {
+		tokio::runtime::Handle::current()
+			.block_on(sc_network_iroh_transport::Transport::new(Some(keypair)))
+	})
+	.expect("iroh transport endpoint can be initialised; qed");
+
+	CountingTransport::new(iroh, bandwidth)
+		.map(|(peer_id, muxer), _| (peer_id, StreamMuxerBox::new(muxer)))
+		.boxed()
 }
 
 #[derive(Clone)]
