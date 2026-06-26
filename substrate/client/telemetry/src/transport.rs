@@ -32,7 +32,7 @@ pub(crate) fn initialize_transport() -> Result<WsTrans, io::Error> {
 	let transport = {
 		let tcp_transport = libp2p::tcp::tokio::Transport::new(libp2p::tcp::Config::new());
 		let inner = libp2p::dns::tokio::Transport::system(tcp_transport)?;
-		libp2p::websocket::framed::WsConfig::new(inner).and_then(|connec, _| {
+		libp2p::websocket::framed::Config::new(inner).and_then(|connec, _| {
 			let connec = connec
 				.with(|item| {
 					let item = libp2p::websocket::framed::OutgoingData::Binary(item);

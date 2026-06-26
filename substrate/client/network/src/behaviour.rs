@@ -31,19 +31,16 @@ use crate::{
 
 use futures::channel::oneshot;
 use libp2p::{
-	connection_limits::ConnectionLimits,
-	core::Multiaddr,
-	identify::Info as IdentifyInfo,
-	identity::PublicKey,
-	kad::{Record, RecordKey},
-	swarm::NetworkBehaviour,
-	PeerId, StreamProtocol,
+	connection_limits::ConnectionLimits, core::Multiaddr, identify::Info as IdentifyInfo,
+	identity::PublicKey, swarm::NetworkBehaviour, PeerId, StreamProtocol,
 };
+use libp2p_kad::{Record, RecordKey};
 
 use parking_lot::Mutex;
 use sp_runtime::traits::Block as BlockT;
 use std::{
 	collections::HashSet,
+	convert::Infallible,
 	sync::Arc,
 	time::{Duration, Instant},
 };
@@ -462,5 +459,11 @@ impl From<DiscoveryOut> for BehaviourOut {
 impl From<void::Void> for BehaviourOut {
 	fn from(e: void::Void) -> Self {
 		void::unreachable(e)
+	}
+}
+
+impl From<Infallible> for BehaviourOut {
+	fn from(e: Infallible) -> Self {
+		match e {}
 	}
 }
