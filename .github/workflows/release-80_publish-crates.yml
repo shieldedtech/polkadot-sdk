@@ -56,7 +56,7 @@ permissions:
 
 jobs:
   check-synchronization:
-    uses: paritytech-release/sync-workflows/.github/workflows/check-synchronization.yml@main
+    uses: paritytech-release/sync-workflows/.github/workflows/check-synchronization.yml@e179c95bcf3e46cbe6c9ebc51a0e0b26f1f931b0 # main
     with:
       concurrency_suffix: publish-crates
     secrets:

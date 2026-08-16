@@ -327,7 +327,7 @@ jobs:
       run: sudo apt-get update && sudo apt-get install -y rpm
 
     - name: Set up Ruby
-      uses: actions/setup-ruby@v1
+      uses: actions/setup-ruby@e932e7af67fc4a8fc77bd86b744acd4e42fe3543 # v1
       with:
         ruby-version: '3.2'
 

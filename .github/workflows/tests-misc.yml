@@ -312,7 +312,7 @@ jobs:
   #         done
 
   #     - name: Upload artifacts
-  #       uses: actions/upload-artifact@v4.3.6
+  #       uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
   #       with:
   #         path: substrate/primitives/arithmetic/fuzzer/hfuzz_workspace/
   #         name: hfuzz-${{ github.sha }}
